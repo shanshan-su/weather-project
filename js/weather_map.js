@@ -7,7 +7,7 @@ $(document).ready(function () {
     // https://api.openweathermap.org/data/2.5/forecast
 
     // Call 5 day / 3 hour forecast data
-    function getWeatherIN5Days() {
+    function getWeatherIn5Days() {
         $.get("https://api.openweathermap.org/data/2.5/forecast",  {
             q: $("#current-city").html().split(": ")[1],
             appid: openWeatherAppId,
@@ -73,21 +73,17 @@ $(document).ready(function () {
         appid: openWeatherAppId,
         units: "imperial"
     }).done(function (weather) {
-        getWeatherIN5Days();
+        getWeatherIn5Days();
+
+        if (isDarkModeOn()) {
+
+        }
 
         currentWeatherPopup = new mapboxgl.Popup()
             .setHTML(getCurrentWeather(weather));
 
         currentWeatherMarker.setPopup(currentWeatherPopup)
             .addTo(map);
-
-        // $(".dark-mode").click(() => {
-        //     if ($("body").hasClass("dark-theme")) {
-        //         $(".mapboxgl-popup-content").css("background-color", "#343a40");
-        //     } else {
-        //         $(".mapboxgl-popup-content").css("background-color", "white");
-        //     }
-        // });
     });
 
 
@@ -217,5 +213,14 @@ $(".dark-mode").click(() => {
         $(".mapboxgl-popup-content > ul > li").css("background-color", "white");
     }
 });
+
+function isDarkModeOn () {
+    if ($("body").hasClass("dark-theme")) {
+        console.log("true");
+        return true;
+    } else {
+        return false;
+    }
+}
 
 $("#home").click(() => location.reload());

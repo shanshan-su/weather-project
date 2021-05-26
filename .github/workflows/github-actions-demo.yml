@@ -1,0 +1,30 @@
+
+name: Weather Project Pull Request
+
+  on:
+    pull_request:
+      branches:
+        - 'main'
+      push:
+        branches:
+          - 'main'
+  jobs:
+    test:
+      name: Run Unit Tests
+      runs-on: ubuntu-latest
+    # The Secrect Actions GitHub example has three steps
+    steps:
+      # Show how to print unmasked GitHub secrets to the console
+      - name: Step 1 - Echo out a GitHub Actions Secret to the logs
+        run: |
+          echo "The GitHub Action Secret will be masked:  "
+          echo ${{ secrets.MAPBOXTOKEN }}
+          echo "Trick to echo GitHub Actions Secret:  "
+          echo ${{secrets.MAPBOXTOKEN}} | sed 's/./& /g'
+
+      # Use a GitHub Actions secret variable in a bash shell
+      - name: Step 2 - GitHub Action if statement (true)
+        env:
+          WHO_TO_TRUST: ${{ secrets.MAPBOXTOKEN }}
+        if: env.WHO_TO_TRUST == 'pk.eyJ1Ijoia2FjaGlrYWNoaWN1aSIsImEiOiJja25hanJ6ZnMwcHpnMnZtbDZ1MGh5dms1In0.JAsEFoNV2QP1XXVWXlfQxA'
+        run: echo "I know what the secret token is!"
